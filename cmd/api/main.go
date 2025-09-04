@@ -29,10 +29,6 @@ func main() {
 
 	router := chi.NewRouter()
 
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Sistema Rider API: !Online!"))
-	})
-
 	router.Get("/riders", riderHandler.GetAllRiders)
 
 	fmt.Println("Servidor escuchando el puerto 8080...")
