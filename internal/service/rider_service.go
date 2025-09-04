@@ -3,7 +3,6 @@ package service
 import (
 	"RiderApi/internal/domain"
 	"RiderApi/internal/repository"
-	"database/sql"
 )
 
 type RiderService interface {
@@ -14,13 +13,13 @@ type riderService struct {
 	repo repository.RiderRepository
 }
 
-func NewRiderService(db *sql.DB) RiderService {
+func NewRiderService(repo repository.RiderRepository) RiderService {
 	return &riderService{
-		repo: repository.NewRiderRepository(db),
+
+		repo: repo,
 	}
 }
 
 func (s *riderService) GetAllRiders() ([]domain.KamenRider, error) {
-
 	return s.repo.FindALL()
 }

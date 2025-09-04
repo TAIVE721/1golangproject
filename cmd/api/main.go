@@ -2,7 +2,9 @@ package main
 
 import (
 	"RiderApi/internal/handler"
-	"RiderApi/internal/routers" // <-- ¡Importamos nuestro nuevo paquete!
+	"RiderApi/internal/repository" // <-- Importamos repository
+	"RiderApi/internal/routers"
+	"RiderApi/internal/service" // <-- Importamos service
 	"database/sql"
 	"fmt"
 	"log"
@@ -14,8 +16,7 @@ import (
 
 func main() {
 
-	connStr := "user=postgres password=tu_password dbname=KamenRiders host=localhost port=5432 sslmode=disable"
-
+	connStr := "user=postgres password='' dbname=KamenRiders host=localhost port=5432 sslmode=disable"
 	db, err := sql.Open("pgx", connStr)
 	if err != nil {
 		log.Fatal("No se pudo conectar a la base de datos")
@@ -26,13 +27,17 @@ func main() {
 		log.Fatal("No se pudo verificar la conexión")
 	}
 
-	riderHandler := handler.NewRiderHandler(db)
+	riderRepo := repository.NewRiderRepository(db)
+
+	riderService := service.NewRiderService(riderRepo)
+
+	riderHandler := handler.NewRiderHandler(riderService)
+
 	router := chi.NewRouter()
 
 	routers.SetupRiderRoutes(router, riderHandler)
 
 	fmt.Println("Servidor escuchando el puerto 8080...")
-
 	if err := http.ListenAndServe(":8080", router); err != nil {
 		log.Fatalf("No se pudo iniciar el servidor: %v", err)
 	}
