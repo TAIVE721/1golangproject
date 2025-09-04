@@ -7,6 +7,9 @@ import (
 
 type RiderRepository interface {
 	FindALL() ([]domain.KamenRider, error)
+	CreateRider(rider domain.KamenRider) (domain.KamenRider, error)
+	UpdateRider(rider domain.KamenRider, id int) (domain.KamenRider, error)
+	DeleteRider(id int) (int, error)
 }
 
 type postgresRepository struct {
@@ -21,9 +24,7 @@ func NewRiderRepository(db *sql.DB) RiderRepository {
 
 func (r *postgresRepository) FindALL() ([]domain.KamenRider, error) {
 
-	query := "SELECT id, name, henshin , kick FROM riders"
-
-	rows, err := r.db.Query(query)
+	rows, err := r.db.Query("SELECT id, name, henshin , kick FROM riders")
 
 	if err != nil {
 		return nil, err
@@ -45,4 +46,16 @@ func (r *postgresRepository) FindALL() ([]domain.KamenRider, error) {
 
 	return riders, nil
 
+}
+func (r *postgresRepository) CreateRider(rider domain.KamenRider) (domain.KamenRider, error) {
+
+	rows, err := r.db.Query("SELECT id, name, henshin , kick FROM riders")
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	return
 }

@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"RiderApi/internal/handler" // Importamos el handler para usar sus métodos
+	"RiderApi/internal/handler"
 
 	"github.com/go-chi/chi/v5"
 )

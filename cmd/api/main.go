@@ -28,9 +28,7 @@ func main() {
 	}
 
 	riderRepo := repository.NewRiderRepository(db)
-
 	riderService := service.NewRiderService(riderRepo)
-
 	riderHandler := handler.NewRiderHandler(riderService)
 
 	router := chi.NewRouter()
