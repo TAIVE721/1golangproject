@@ -3,6 +3,7 @@ package service
 import (
 	"RiderApi/internal/domain"
 	"RiderApi/internal/repository"
+	"database/sql"
 )
 
 type RiderService interface {
@@ -13,9 +14,9 @@ type riderService struct {
 	repo repository.RiderRepository
 }
 
-func NewRiderService(repo repository.RiderRepository) RiderService {
+func NewRiderService(db *sql.DB) RiderService {
 	return &riderService{
-		repo: repo,
+		repo: repository.NewRiderRepository(db),
 	}
 }
 

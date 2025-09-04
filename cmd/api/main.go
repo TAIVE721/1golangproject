@@ -2,8 +2,6 @@ package main
 
 import (
 	"RiderApi/internal/handler"
-	"RiderApi/internal/repository"
-	"RiderApi/internal/service"
 	"database/sql"
 	"fmt"
 	"log"
@@ -27,9 +25,7 @@ func main() {
 		log.Fatal("No se pudo verificar la conexión")
 	}
 
-	riderRepo := repository.NewRiderRepository(db)
-	riderService := service.NewRiderService(riderRepo)
-	riderHandler := handler.NewRiderHandler(riderService)
+	riderHandler := handler.NewRiderHandler(db)
 
 	router := chi.NewRouter()
 

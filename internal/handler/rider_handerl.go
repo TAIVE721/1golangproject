@@ -2,6 +2,7 @@ package handler
 
 import (
 	"RiderApi/internal/service"
+	"database/sql"
 	"encoding/json"
 	"net/http"
 )
@@ -10,9 +11,9 @@ type RiderHandler struct {
 	service service.RiderService
 }
 
-func NewRiderHandler(serv service.RiderService) *RiderHandler {
+func NewRiderHandler(db *sql.DB) *RiderHandler {
 	return &RiderHandler{
-		service: serv,
+		service: service.NewRiderService(db),
 	}
 }
 
