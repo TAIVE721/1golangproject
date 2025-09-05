@@ -9,6 +9,7 @@ import (
 func SetRiderRouter(router *chi.Mux, handler handlers.RiderHandler) {
 	router.Route("/riders", func(r chi.Router) {
 		r.Get("/", handler.GetAll)
+		r.Get("/{Rider_id}", handler.GetById)
 		r.Post("/", handler.Post)
 		r.Patch("/{Rider_id}", handler.Patch)
 		r.Delete("/{Rider_id}", handler.Delete)
