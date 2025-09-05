@@ -26,7 +26,7 @@ func NewRiderRepository(d *sql.DB) RiderRepository {
 
 func (r *riderRepository) GetAll() ([]domain.KamenRider, error) {
 
-	query := "SELECT * FROM Riders"
+	query := "SELECT * FROM riders"
 
 	rows, err := r.db.Query(query)
 
@@ -52,7 +52,7 @@ func (r *riderRepository) GetAll() ([]domain.KamenRider, error) {
 }
 
 func (r *riderRepository) GetById(id int) (domain.KamenRider, error) {
-	query := "SELECT * FROM Riders WHERE id = $1"
+	query := "SELECT * FROM riders WHERE id = $1"
 
 	row := r.db.QueryRow(query, id)
 
@@ -82,7 +82,7 @@ func (r *riderRepository) Post(rider domain.KamenRider) (domain.KamenRider, erro
 
 func (r *riderRepository) Patch(rider domain.KamenRider, id int) (domain.KamenRider, error) {
 
-	query := "UPDATE Riders set name=$1 , henshin=$2 ,kick=$3 WHERE id=$4"
+	query := "UPDATE riders set name=$1 , henshin=$2 ,kick=$3 WHERE id=$4"
 
 	_, err := r.db.Exec(query, rider.Name, rider.Henshin, rider.Kick, id)
 
