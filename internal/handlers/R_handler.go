@@ -30,7 +30,6 @@ func (r *RiderHandler) GetAll(w http.ResponseWriter, h *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "Application/json")
-	w.WriteHeader(http.StatusFound)
 	json.NewEncoder(w).Encode(riders)
 
 }
@@ -54,7 +53,7 @@ func (r *RiderHandler) GetById(w http.ResponseWriter, h *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "Application/json")
-	w.WriteHeader(http.StatusAccepted)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(rider)
 
 }
@@ -77,7 +76,7 @@ func (r *RiderHandler) Post(w http.ResponseWriter, h *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "Application/json")
-	w.WriteHeader(http.StatusAccepted)
+	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(Rider)
 
 }
@@ -108,7 +107,7 @@ func (r *RiderHandler) Patch(w http.ResponseWriter, h *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "Application/json")
-	w.WriteHeader(http.StatusAccepted)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(PatchedRider)
 
 }

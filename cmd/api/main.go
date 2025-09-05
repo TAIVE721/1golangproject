@@ -10,12 +10,12 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	_ "github.com/jackc/pgx/v5"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func main() {
 
-	config := "host:localhost port:5432 user:postgres password:'' database:KamenRiders"
+	config := "user=postgres password='' dbname=KamenRiders host=localhost port=5432 sslmode=disable"
 
 	db, err := sql.Open("pgx", config)
 
@@ -37,7 +37,7 @@ func main() {
 
 	router := chi.NewRouter()
 
-	routers.SetRiderRouter(router, *riderHandler)
+	routers.SetRiderRouter(router, riderHandler)
 
 	if err := http.ListenAndServe(":8080", router); err != nil {
 

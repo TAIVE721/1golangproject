@@ -68,7 +68,7 @@ func (r *riderRepository) GetById(id int) (domain.KamenRider, error) {
 
 func (r *riderRepository) Post(rider domain.KamenRider) (domain.KamenRider, error) {
 
-	query := "INSERT INTO RIDER (name,henshin,kick) VALUES($1,$2,$3) RETURNING id"
+	query := "INSERT INTO riders (name,henshin,kick) VALUES($1,$2,$3) RETURNING id"
 
 	err := r.db.QueryRow(query, rider.Name, rider.Henshin, rider.Kick).Scan(&rider.ID)
 
@@ -82,9 +82,9 @@ func (r *riderRepository) Post(rider domain.KamenRider) (domain.KamenRider, erro
 
 func (r *riderRepository) Patch(rider domain.KamenRider, id int) (domain.KamenRider, error) {
 
-	query := "UPDATE Riders set name=$1 , henshin=$2 ,kick=$3"
+	query := "UPDATE Riders set name=$1 , henshin=$2 ,kick=$3 WHERE id=$4"
 
-	_, err := r.db.Exec(query)
+	_, err := r.db.Exec(query, rider.Name, rider.Henshin, rider.Kick, id)
 
 	if err != nil {
 		return domain.KamenRider{}, err

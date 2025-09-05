@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func SetRiderRouter(router *chi.Mux, handler handlers.RiderHandler) {
+func SetRiderRouter(router *chi.Mux, handler *handlers.RiderHandler) {
 	router.Route("/riders", func(r chi.Router) {
 		r.Get("/", handler.GetAll)
 		r.Get("/{Rider_id}", handler.GetById)
