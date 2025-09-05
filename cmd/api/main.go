@@ -1,42 +1,49 @@
 package main
 
 import (
-	"RiderApi/internal/handler"
-	"RiderApi/internal/repository" // <-- Importamos repository
+	"RiderApi/internal/handlers"
+	"RiderApi/internal/repositories"
 	"RiderApi/internal/routers"
-	"RiderApi/internal/service" // <-- Importamos service
+	"RiderApi/internal/services"
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	_ "github.com/jackc/pgx/v5/stdlib"
+	_ "github.com/jackc/pgx/v5"
 )
 
 func main() {
 
-	connStr := "user=postgres password='' dbname=KamenRiders host=localhost port=5432 sslmode=disable"
-	db, err := sql.Open("pgx", connStr)
+	config := "host:localhost port:5432 user:postgres password:'' database:KamenRiders"
+
+	db, err := sql.Open("pgx", config)
+
 	if err != nil {
-		log.Fatal("No se pudo conectar a la base de datos")
-	}
-	defer db.Close()
-
-	if err = db.Ping(); err != nil {
-		log.Fatal("No se pudo verificar la conexión")
+		log.Fatal("Error del servidor")
+		return
 	}
 
-	riderRepo := repository.NewRiderRepository(db)
-	riderService := service.NewRiderService(riderRepo)
-	riderHandler := handler.NewRiderHandler(riderService)
+	if err := db.Ping(); err != nil {
+		log.Fatal("No se pudo conectar con la db")
+		return
+	}
+
+	riderRepo := repositories.NewRiderRepository(db)
+
+	riderService := services.NewRiderService(riderRepo)
+
+	riderHandler := handlers.NewRiderHandler(riderService)
 
 	router := chi.NewRouter()
 
-	routers.SetupRiderRoutes(router, riderHandler)
+	routers.SetRiderRouter(router, *riderHandler)
 
-	fmt.Println("Servidor escuchando el puerto 8080...")
 	if err := http.ListenAndServe(":8080", router); err != nil {
-		log.Fatalf("No se pudo iniciar el servidor: %v", err)
+
+		log.Fatal("Internal srver error")
+		return
+
 	}
+
 }

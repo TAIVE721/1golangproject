@@ -1,15 +1,16 @@
 package routers
 
 import (
-	"RiderApi/internal/handler"
+	"RiderApi/internal/handlers"
 
 	"github.com/go-chi/chi/v5"
 )
 
-func SetupRiderRoutes(router *chi.Mux, riderHandler *handler.RiderHandler) {
-
+func SetRiderRouter(router *chi.Mux, handler handlers.RiderHandler) {
 	router.Route("/riders", func(r chi.Router) {
-		r.Get("/", riderHandler.GetAllRiders)
-
+		r.Get("/", handler.GetAll)
+		r.Post("/", handler.Post)
+		r.Patch("/{Rider_id}", handler.Patch)
+		r.Delete("/{Rider_id}", handler.Delete)
 	})
 }
